@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Message\TodoMessage;
 use App\Repository\TodoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,21 @@ class Todo
      * @ORM\Column(type="boolean")
      */
     private $done;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    public function __construct(string $title)
+    {
+        $this->title = $title;
+    }
+
+    public static function fromMessage(TodoMessage $todoMessage): self
+    {
+        return new self($title);
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +68,18 @@ class Todo
     public function setDone(bool $done): self
     {
         $this->done = $done;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -2,5 +2,25 @@
 
 {% block body %}
 
-  <h1>Hello, {{message}}</h1>
+	<header>
+		<nav class="topbar"></nav>
+	</header>
+	<main>
+		<section class="hero is-primary flex-centered">
+			<h2>symfony training</h2>
+			<p>service container</p>
+		</section>
+		<div class="container is-warning px-1 py-1">
+			<div class="card my-1">
+				<div class="card-title">
+					<strong>New Todo</strong>
+				</div>
+				<div class="card-content">
+					<label for="todo">
+						<input type="text" name='todo'>
+					</label>
+				</div>
+			</div>
+		</div>
+	</main>
 {% endblock %}

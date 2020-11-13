@@ -11,29 +11,35 @@ help:
 .PHONY: help
 
 #-- web server
-serve: ## start the server
+serve: ## Start the server
 	symfony server:start -d
-unserve: ## stop the server
+unserve: ## Stop the server
 	symfony server:stop
-reserve: ## restart the server
+reserve: ## Re-start the server
 	symfony server:stop
 	symfony server:start -d
 
 #-- logging
-log: ## tail the logs
+log: ## Tail the logs
 	symfony server:log
 
+#-- rabbit
+rabbit: ## Exploring the RabbitMQ Web Management Interface
+	symfony open:local:rabbitmq
+
 #-- workflow
-workflow: ## create the workflow image
+workflow: ## Create the workflow image
 	symfony console workflow:dump comment | dot -Tpng -o workflow.png
 
 #-- database doctrine
-db: ## drop database and reset all data with newly created DB
+db: ## Drop database and reset all data with newly created DB
 	symfony console doctrine:database:drop --force
 	symfony console doctrine:database:create
 	symfony console doctrine:migrations:migrate -n
 	symfony console doctrine:fixtures:load -n
 
 #-- worker
-worker: ## start the queue worker as daemon
+worker: ## Start the queue worker as daemon
 	symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
+worker-stop: ## Stop the queue worker as daemon
+	symfony console messenger:stop-workers
